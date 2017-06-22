@@ -9,35 +9,25 @@ import {
   AppRegistry,
   StyleSheet,
   View,
+  Platform,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/Ionicons'
+import {Scene, Router} from 'react-native-router-flux'
 
-import ArtistList from './ArtistList'
+import HomeView from './HomeView'
+import ArtistDetail from './ArtistDetailView'
 
-export default class PlatziMusic extends Component {
+class PlatziMusic extends React.Component {
   render() {
-    const artist = {
-      image: 'https://lastfm-img2.akamaized.net/i/u/300x300/31a51f6e3ec647c8997150ec837891c7.png',
-      name: 'David Bowie',
-      likes: 200,
-      comments: 140
-    }
-    const artists = Array(500).fill(artist)
-    return (
-      <View style={styles.container}>
-        <ArtistList artists={artists} />
-      </View>
-    );
+    const isAndroid = Platform.OS === 'android'
+
+    return <Router>
+      <Scene key="root">
+        <Scene key="home" component={HomeView} hideNavBar />
+        <Scene key="artistDetail" component={ArtistDetail} hideNavBar={isAndroid} />
+      </Scene>
+    </Router>
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'lightgray',
-    paddingTop: 50,
-  },
-});
 
 AppRegistry.registerComponent('PlatziMusic', () => PlatziMusic);
